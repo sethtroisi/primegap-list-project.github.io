@@ -1,6 +1,9 @@
-{% include head.html %}
+  {% include head.html %}
+  <style type="text/css">
+    #creditstable {min-height: 28em;}
+  </style>
   </head>
-  <body class="global landing metrics">
+  <body class="global landing">
     <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -9,66 +12,64 @@
     {% include page-bar.html %}
     <div class="pusher">
     {% endif %}
-        {% include landing-header.html %}
-        {{ content }}
-        {% include footer.html %}
+      {% include landing-header.html %}
+      {{ content }}
+      {% include footer.html %}
     {% if site.pagebar %}
     </div>
     {% endif %}
 
     {% include js.html %}
-    <script src='/js/dist/sql-wasm.js'></script>
+
     <script>
-
-    function paginate (array, page_size, page_number) {
-      --page_number; // because pages logically start with 1, but technically with 0
-      return array.slice(page_number * page_size, (page_number + 1) * page_size);
-    };
-
-    function abbrevkeys(db) {
-      // Title
-      var dbresult = db.prepare('select * from credits ORDER by abbreviation');
-      dbresult.getAsObject({$start:1, $end:1}); // {col1:1, col2:111}
-      dbresult.bind({$start:1, $end:2});
-      e = document.createElement("tbody");
-      cnt = 0;
-      while(dbresult.step()) {
-        var row = dbresult.getAsObject();
-        cnt += 1;
-        e.innerHTML += `<tr><td class="abbr">${row["abbreviation"]}</td><td class="disc">${row["name"]}</td><td class="ack">${row["ack"]}</td></tr>`
-      }
-      return e;
-    };
-
     $(document).ready(function() {
-      $('.ui.dimmer').dimmer('show');
-      console.log("dblocation" + dblocation);
-      config = {locateFile: filename => `/js/dist/${filename}`};
-      // The `initSqlJs` function is globally provided by all of the main dist files if loaded in the browser.
-      // We must specify this locateFile function if we are loading a wasm file from anywhere other than the current html page's folder.
-      initSqlJs(config).then(function(SQL){
+    
+      var data, tdata = "";
+      xhrDoc = new XMLHttpRequest();   
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', dblocation, true);
-        xhr.responseType = 'arraybuffer';
-        xhr.onreadystatechange = function() {
-          if (this.readyState == 4)
+      xhrDoc.open('GET', "https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/_data/credits.csv")
+      if (xhrDoc.overrideMimeType)
+          xhrDoc.overrideMimeType('text/plain; charset=utf-8')
+
+      function parseentry(val, index) {
+        if (index == 0)
+            return val;
+        else if (index == 1)
+            return val;
+        else
+          return val;
+      };
+
+      function order_by_abbreviation(a, b) {
+       if (a[0] < b[0]) return -1;
+       if (a[0] > b[0]) return 1;
+       return 0;
+      };
+
+      xhrDoc.onreadystatechange = function() {
+      $('.ui.dimmer').dimmer('show');
+        if (this.readyState == 4)
+        {
+          if (this.status == 200)
           {
-            if (this.status == 200)
-            {
-              // Top 20 by merit
-              var uInt8Array = new Uint8Array(this.response);
-              var db = new SQL.Database(uInt8Array);
-              document.getElementById("abbrevkeys").appendChild(abbrevkeys(db));
-              $('.ui.dimmer').dimmer('hide');
-            }
+            csv = this.response; //Here is a string of the text data
+            data = $.csv.toArrays(csv);
+            console.log(data);
+            console.log(data[0]);
+            // Parse the csv strings into objects as appropriate
+            var e = document.createElement("tbody");
+            for (row of data.entries()) {
+              html = `<tr>
+<td>${row[1][0]}</td><td>${row[1][1]}</td><td>${row[1][2]}</td></tr>`
+              e.innerHTML += html;
+              }
+            document.getElementById("abbrevkeys").appendChild(e);
+            $('.ui.dimmer').dimmer('hide');
+            };
           }
         }
-        xhr.send();
-      });
+      xhrDoc.send() //sending the request      
     });
     </script>
-      
   </body>
-
 </html>
