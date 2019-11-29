@@ -1,0 +1,147 @@
+/*******************************
+       Global Resets
+*******************************/
+
+html {
+  font-size: 18px; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400; }
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700; }
+
+.ui.header {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700; }
+
+.ui.animated.selection.list a {
+  margin-bottom:  0.6em;
+}
+/*--------------
+    Subtle Patterns
+---------------*/
+.global .blue-round-gradient {
+  background-color: #7e8bbc;
+  /* IE9, iOS 3.2+ */
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0idnNnZyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIHN0b3AtY29sb3I9IiNmOGI2ZmYiIHN0b3Atb3BhY2l0eT0iMSIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzAzNjA3OCIgc3RvcC1vcGFjaXR5PSIxIiBvZmZzZXQ9IjEiLz48L2xpbmVhckdyYWRpZW50PjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjdnNnZykiIC8+PC9zdmc+);
+  /* Android 2.3 */
+  background-image: -webkit-repeating-linear-gradient(top left, #f8b6ff 0%, #036078 100%);
+  /* IE10+ */
+  background-image: repeating-linear-gradient(to bottom right, #f8b6ff 0%, #036078 100%); }
+
+/* IE8- CSS hack */
+@media \0screen\,screen\9 {
+  .global .blue-round-gradient {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fff8b6ff",endColorstr="#ff036078",GradientType=0); } }
+
+/*--------------
+    Header
+---------------*/
+.global .masthead {
+  margin: 0;
+  padding: 1rem 0; }
+
+.global .masthead .column {
+  position: relative; }
+
+.global .masthead .information {
+  margin: 1em; }
+
+.global .slim-header-light {
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  padding: 0;
+  margin: 0; }
+
+/*--------------
+    Menu
+---------------*/
+.global .menu .right.menu > .mobile.item {
+  display: none; }
+
+/*--------------
+    Ribbons
+---------------*/
+.global .segment h1 {
+  font-size: 2em;
+  margin-bottom: 1em; }
+
+.global .vertical.segment {
+  padding: 3rem 0; }
+
+.global .feature.segment {
+  margin: 0;
+  padding: 3rem 0; }
+
+.global .feature.segment p {
+  min-height: 50px; }
+
+.global .selection.list {
+  margin: 0 -0.5em; }
+
+/*--------------
+    Tags
+---------------*/
+.global .tag {
+  margin-right: 5px;
+  margin-bottom: 5px; }
+
+.global .label.categories {
+  margin-right: 5px;
+  margin-bottom: 5px; }
+
+.global .recent-posts-title {
+  margin-top: 5px;
+  font-size: 1.3em;
+  margin-bottom: 5px; }
+
+.global .thumb-img {
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+/*--------------
+    Footer
+---------------*/
+.global .footer.segment {
+  background-color: #000000;
+  padding: 3rem 0; }
+
+.global .copyright.segment {
+  margin: 0; }
+
+.paleblue {
+  background-color: #7E9CAFFF !important;
+}
+
+/*******************************
+          Responsive
+*******************************/
+/* Mobile Only */
+@media only screen and (max-width: 768px) {
+  .global .menu .right.menu > .item {
+    display: none; }
+  .global .menu .right.menu > .mobile.item {
+    display: block; }
+  .global .menu .right.menu > .mobile.item .menu {
+    left: auto;
+    right: 0; }
+  .global .selection.list .right.floated {
+    display: none; }
+  .global h1 {
+    font-size: 2em; }
+  .global h2 {
+    font-size: 1.5em; }
+  .global .overview .divided.grid .header .icon {
+    font-size: 1.5em; }
+  .global .overview .divided.grid .header + p {
+    min-height: 0; }
+  .global .masthead.segment .button {
+    font-size: 1rem; }
+  .global .masthead.segment .column {
+    font-size: 0.7rem; }
+  .global .masthead.segment .column p {
+    display: none; } }

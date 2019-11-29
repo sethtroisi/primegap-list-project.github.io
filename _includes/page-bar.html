@@ -1,0 +1,26 @@
+<div class="ui right vertical sidebar menu">
+    <div class="item">
+      <div class="ui transparent mini icon input">
+        <input type="text" placeholder="Search..." class="menu-search">
+        <i class="search link icon"></i>
+      </div>
+    </div>
+
+
+    <a class="item" href="/top20/"><i class="flag icon"></i>Top 20<span class="ui paleblue mini label"> {{ site.lists | size  }}</span></a>
+
+    <a class="item" href="/graphs/"><i class="chart line icon"></i>Graphs <span class="ui paleblue mini label"> {{ site.graphs | size  }}</span></a>
+
+    <a class="item" href="/news/"><i class="comments icon"></i>News <span class="ui paleblue mini label"> {{ site.tags.post | size  }}</span></a>
+
+    <a class="item" href="/abbreviations/"> <i class="university line icon"></i> Key to abbreviations </a>
+
+    <a class="item" href="/bibliography/"><i class="book icon"></i>Bibliography</span></a>
+
+    <a class="item" href="/allgapsdat/"> <i class="table layout icon"></i> Gap list, original format </a>
+
+    <a class="item" href="/tag/"> <i class="tags icon"></i> Tag Browser <span class="ui paleblue mini label"> {{ site.tags | size  }}</span></a>
+
+    <a class="item" href="/category/"> <i class="bookmark icon"></i> Category List <span class="ui paleblue mini label"> {{ site.categories | size  }}</span></a>
+
+</div>

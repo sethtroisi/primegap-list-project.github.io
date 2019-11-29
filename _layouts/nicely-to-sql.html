@@ -1,0 +1,81 @@
+{% include head.html %}
+  </head>
+  <body class="global landing metrics">
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    {% if site.pagebar %}
+    {% include page-bar.html %}
+    <div class="pusher">
+    {% endif %}
+        {% include landing-header.html %}
+        {{ content }}
+        {% include footer.html %}
+    {% if site.pagebar %}
+    </div>
+    {% endif %}
+
+    {% include js.html %}
+    <script>
+
+    $(document).ready(function() {
+      var data, tdata = "";
+      xhrDoc = new XMLHttpRequest();   
+
+      xhrDoc.open('GET', "https://raw.githubusercontent.com/gjhiggins/prime-gap-list/master/allgaps.csv")
+      if (xhrDoc.overrideMimeType)
+          xhrDoc.overrideMimeType('text/plain; charset=x-user-defined')
+
+      function parseentry(val, index) {
+        if (index == 0)
+            return parseInt(val, 10);
+        else if (index == 1)
+          if (val == '1')
+            return true;
+          else
+            return false;
+        else if (index > 3 && index < 5)
+          return val
+        else if (index == 6)
+          return parseInt(val, 10)
+        else if (index == 7)
+          return parseFloat(val, 10)
+        else if (index == 8)
+          return parseInt(val, 10)
+        else
+          return val;
+      };
+
+      xhrDoc.onreadystatechange = function() {
+      $('.ui.dimmer').dimmer('show');
+        if (this.readyState == 4)
+        {
+          if (this.status == 200)
+          {
+            tsv = this.response; //Here is a string of the text data
+            data = $.csv.toArrays(csv);
+            console.log(data.length);
+            // Parse the tsv strings into objects as appropriate
+            csvdata = data.map(function(entry) {
+              return entry.map(parseentry)
+            });
+            // console.log(csvdata[94531]);
+            var e = document.createElement("pre");
+            cnt = 0;
+            for (row of top20.entries()) {
+              cnt += 1;
+              html = "";
+              e.innerHTML += html;
+              }
+            document.getElementById("data").appendChild(e);
+            $('.ui.dimmer').dimmer('hide');
+            };
+          }
+        }
+    });
+    </script>
+      
+  </body>
+
+</html>

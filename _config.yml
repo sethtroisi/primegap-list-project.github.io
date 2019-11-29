@@ -1,0 +1,74 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+#
+# If you need help with YAML syntax, here are some quick references for you: 
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+title: Prime gap list
+# tagline: record first occurrence prime gaps
+email: gjhiggins@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  A community-curated list of record first occurrence prime gaps.
+
+github_username:  gjhiggins
+categories: news, project, record
+keywords: prime gaps, merit
+copyright: The prime gap list community
+
+collections:
+  lists:
+    output: true
+    # permalink: /:collection/:name
+    permalink: /:collection/:path/
+  graphs:
+    output: true
+    # permalink: /:collection/:name
+    permalink: /:collection/:path/
+
+permalink: pretty 
+
+# Build settings
+plugins:
+  - jekyll-feed
+
+# Default locations
+plugins_dir         : _plugins
+layouts_dir         : _layouts
+data_dir            : _data
+includes_dir        : _includes
+
+# Lists
+
+tag_items: 20     # Applies to categories and tags lists
+recent_items: 10  # Applies to recent posts, apps lists
+related_items: 5  # Applies to related posts and apps lists
+
+# Layout
+
+pagebar: true # Show (true) page sidebar menu or hide (false) 
+postbar: false # Show (true) post sidebar or hide (false) 
+
+# Embeds
+
+disqus_name: prime-gap-list       # Your site name at Disqus
+
+youtube_controls: 0               # Turn on=1/off=0 Youtube player features when embedding videos
+
+
+
+include: [".htaccess"]
+exclude: ["data", "maps", "res", "*.sublime-project", "*.sublime-workspace", "package.json", "node_modules", "LICENSE", "README.md"]
