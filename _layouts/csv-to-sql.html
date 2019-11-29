@@ -1,0 +1,203 @@
+{% include head.html %}
+  <style type="text/css">
+    #data {
+      min-height: 12em;
+      min-width: 100%;
+    }
+    .output, .sqloutput {
+      font-size: 1.2em;
+      padding-top: 1em;
+      min-height: 2em;
+    }
+    .okay {
+      color: #0A7;
+    }
+  </style>
+  </head>
+  <body class="global landing metrics">
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    {% if site.pagebar %}
+    {% include page-bar.html %}
+    <div class="pusher">
+    {% endif %}
+        {% include landing-header.html %}
+        {{ content }}
+        {% include footer.html %}
+    {% if site.pagebar %}
+    </div>
+    {% endif %}
+
+    {% include js.html %}
+    <script>
+
+    $(document).ready(function() {
+
+      var convertButton = document.getElementById("convert");
+      var outputElement = document.getElementById('output');
+      var errorElement = document.getElementById('error');
+      var dbFileElement = document.getElementById('dbfile');
+      var savedbElement = document.getElementById('savedb');
+
+      var allgapscvsentries;
+      var target_gap = 0;
+      var target_merit = 0.0;
+      var isbetter = false;
+      var csvdata = "";
+      var sql = "";
+      var e = document.createElement("pre");
+
+      // Connect to the HTML element we 'print' to
+      function print(text) {
+        outputElement.innerHTML = text.replace(/\n/g, '<br>');
+      }
+
+      function error(e) {
+        console.log(e);
+        errorElement.style.height = '2em';
+        errorElement.textContent = e.message;
+      }
+
+      function noerror() {
+        errorElement.style.height = '0';
+      }
+
+      // Load a db from a file
+      dbFileElement.onchange = function () {
+        var f = dbFileElement.files[0];
+        var r = new FileReader();
+        // r.readAsArrayBuffer(f);
+        r.readAsText(f);
+        r.onload = function () {
+            document.getElementById("data").innerHTML = r.result;
+            convertEditorContents();
+          };
+      }
+
+      // Run a command in the database
+      function execute(commands) {
+        outputElement.innerHTML = "";
+        for (var i = 0; i < results.length; i++) {
+          outputElement.appendChild(tableCreate(results[i].columns, results[i].values));
+        }
+        outputElement.textContent = "Fetching results...";
+      }
+
+      // Save the db to a file
+      function savedb() {
+        var arraybuff = sql;
+        var sqlstatements = new Blob([arraybuff]);
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.href = window.URL.createObjectURL(sqlstatements);
+        a.download = "gaps.sql";
+        a.onclick = function () {
+          setTimeout(function () {
+            window.URL.revokeObjectURL(a.href);
+          }, 1500);
+        };
+        a.click();
+      };
+      savedbElement.addEventListener("click", savedb, true);
+
+      function checkIsBetterMerit(entry, index, array) {
+        if (entry[0] == target_gap) {
+          // console.log(index, entry[0], target_gap, entry[7], target_merit);
+          return target_merit > entry[7];
+        }
+      }
+
+      // Execute the commands when the button is clicked
+      function convertEditorContents() {
+        noerror();
+        enteredcsvdata = $.csv.toArrays(data.value);
+        csventries = enteredcsvdata.map(function(entry) {
+          return entry.map(parseentry)
+        });
+        sql = "";
+        cnt = 0;
+        found = 0;
+        for (row of csventries.entries()) {
+          // console.log(row[1]);
+          target_gap = row[1][0];
+          target_merit = row[1][7];
+          isbetter = allgapscvsentries.find(checkIsBetterMerit);
+          if (isbetter) {
+            row = row[1];
+            found += 1;
+            cnt += 1;
+            sql += `UPDATE gaps SET ismax=${row[1]},primecat='${row[2]}',isfirst='${row[3]}',primecert='${row[4]}',discoverer='${row[5]}',year=${row[6]},merit=${row[7]},primedigits=${row[8]},startprime='${row[9]}' WHERE gapsize=${row[0]};\n`
+            // console.log(row[0], target_gap, target_merit, isbetter);
+          }
+          else {
+            cnt += 1;
+          }
+        }
+        d = document.getElementById("output")
+        d.innerHTML = `${found}/${cnt} record gaps found`;
+        d.classList.add("okay");
+        console.log("Done");
+      }
+      convertButton.addEventListener("click", convertEditorContents, true);
+
+
+      function parseentry(val, index) {
+        if (index == 0)
+          // gapsize
+          return parseInt(val, 10);
+        else if (index == 1)
+          // ismax
+          if (val == '1')
+            return true;
+          else
+            return false;
+        else if (index > 3 && index < 5)
+          // primetype, isfirst, primecert, discoverer
+          return val
+        else if (index == 6)
+          // year
+          return parseInt(val, 10)
+        else if (index == 7)
+          // merit
+          return parseFloat(val, 10)
+        else if (index == 8)
+          // primedigits
+          return parseInt(val, 10)
+        else
+          // startprime
+          return val;
+      };
+
+      xhrDoc = new XMLHttpRequest();   
+
+      xhrDoc.open('GET', "https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/_data/allgaps.csv")
+      if (xhrDoc.overrideMimeType)
+          xhrDoc.overrideMimeType('text/plain; charset=utf-8')
+
+      xhrDoc.onreadystatechange = function() {
+      $('.ui.dimmer').dimmer('show');
+        if (this.readyState == 4)
+        {
+          if (this.status == 200)
+          {
+            r = this.response;
+            csvdata = $.csv.toArrays(r);
+            // console.log(csvdata.length);
+            // Parse the csv strings into objects as appropriate
+            allgapscvsentries = csvdata.map(function(entry) {
+              return entry.map(parseentry)
+            });
+            $('.ui.dimmer').dimmer('hide');
+            };
+          }
+        // Actually get the data - slightly orphaned down here but critical nonetheless
+        }
+      xhrDoc.send() //sending the request      
+    });
+    </script>
+      
+  </body>
+
+</html>
