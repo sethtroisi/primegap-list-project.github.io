@@ -12,11 +12,11 @@ description: Convert CSV-formatted prime gap record data to SQL
           <div class="ui text loader">Your browser is now assembling the table contents, it will take a few moments ...</div>
         </div>
         <div id="main">
-          <label class="ui pointing below label" for='commands'>Enter or paste CSV data</label>
+          <label class="ui pointing below label" for='commands'>Enter CSV data</label>
           <textarea id="data"></textarea>
           <label class="ui button">Load CSV file&nbsp;&nbsp;<input type='file' id='dbfile'></label>
           <button id="convert" class="ui large primary button">Convert CSV to SQL</button>
-          <button id='savedb' class="ui large green button">Save the SQL</button>
+          <button id='savedb' class="ui large disabled button">Save SQL</button>
           <div id="error" class="error"></div>
           <div id="sqloutput">
             <p id="output" class="output">Results of conversion will be displayed here</p>
