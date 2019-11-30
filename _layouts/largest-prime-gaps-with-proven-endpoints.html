@@ -60,7 +60,7 @@
         return val;
     };
 
-    function getname() {
+    function getname(row) {
       var name = creditsarray.findIndex(function(credit) {
         return credit[0] == row[5];
       });
@@ -92,23 +92,23 @@
         var gapsentries = gapsarray.map(function(entry) {
             return entry.map(parsegapentry)
           });
-        var top20bymerit = gapsentries.sort(function(a, b){return b[7] - a[7]}).slice(0,20);
-        for (row of top20bymerit.entries()) {
+        var provenendpoints = gapsentries.filter(function(a){return a[4] == 'C'});
+        var top20 = provenendpoints.sort(function(a, b){return b[0] - a[0]}).slice(0,20);
+        for (row of top20.entries()) {
           cnt = row[0] + 1;
           row = row[1];
-          name = getname();
+          name = getname(row);
           e.innerHTML += `<tr><td class='right aligned'>${cnt}</td>
           <td class='right aligned'>${row[0].toString().padStart(6, ' ')}</td>
           <td>${get_primestring(row)}</td>
           <td class='center aligned'>${row[7].toFixed(4).toString()}</td>
           <td>${name}</td><td>${row[6]}</td></tr>`
-        }
-      document.getElementById("ranking").appendChild(e);
-      return;
+        };
+        document.getElementById("ranking").appendChild(e);
+        return;
       });
       $('.ui.dimmer').dimmer('hide');
     });
-
     </script>
   </body>
 </html>
