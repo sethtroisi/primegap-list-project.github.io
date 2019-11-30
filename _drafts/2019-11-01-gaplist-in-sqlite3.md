@@ -7,11 +7,9 @@ description: Read gap data from sqlitedb
 excerpt: Options for accessing the allgaps.db SQLite3 database
 ---
 
-## Download from:
+## Download SQL source from:
 
-***Interim location***: [https://raw.githubusercontent.com/gjhiggins/gjhiggins.github.io/master/\_data/allgaps.db](https://raw.githubusercontent.com/gjhiggins/gjhiggins.github.io/master/_data/allgaps.db)
-
-***Probable eventual location***: [https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/\_data/allgaps.db](https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/_data/allgaps.db)
+***Location***: [https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/\_data/allgaps.sql](https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/_data/allgaps.sql)
 
 ## Use with ...
 
