@@ -1,7 +1,7 @@
 ---
-layout: allgapscsv
-title: Rendering of allgaps.tsv
-description: Test render of top 20 prime gaps by overall merit in csv format
+layout: top20-gaps-by-merit
+title: Top 20 gaps by merit
+description: Top 20 prime gap records ordered by merit
 ---
 <style type="text/css">
     .concise {margin:0; padding:0; line-height: 1.1em;}
