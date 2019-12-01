@@ -4,7 +4,7 @@ author: Graham Higgins
 category: video
 title:  "I love Primes Numberphile video on Youtube."
 tags: post
-image: /img/youtube.png
+image: https://img.youtube.com/vi/muVcPi7oWWY/2.jpg
 excerpt: "Numberphile loves prime numbers - 2017"
 ---
 

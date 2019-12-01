@@ -4,7 +4,7 @@ author: Graham Higgins
 category: video
 title:  "Prime Gap Numberphile video on Youtube."
 tags: post
-image: /img/youtube.png
+image: https://img.youtube.com/vi/BH1GMGDYndo/2.jpg
 excerpt: "Numberphile does prime gaps - 2017"
 ---
 
