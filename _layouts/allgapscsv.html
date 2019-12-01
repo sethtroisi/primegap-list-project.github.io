@@ -42,9 +42,9 @@
       var data, tdata = "";
       xhrDoc = new XMLHttpRequest();   
 
-      xhrDoc.open('GET', "https://raw.githubusercontent.com/gjhiggins/prime-gap-list/master/allgaps.tsv")
+      xhrDoc.open('GET', "https://raw.githubusercontent.com/gjhiggins/prime-gap-list/master/allgaps.csv")
       if (xhrDoc.overrideMimeType)
-          xhrDoc.overrideMimeType('text/plain; charset=x-user-defined')
+          xhrDoc.overrideMimeType('text/plain; charset=utf-8')
 
       function parseentry(val, index) {
         if (index == 0)
@@ -91,15 +91,15 @@
         {
           if (this.status == 200)
           {
-            tsv = this.response; //Here is a string of the text data
-            data = $.csv.toArrays(tsv, {separator:'\t'});
+            csv = this.response; //Here is a string of the text data
+            data = $.csv.toArrays(csv);
             console.log(data.length);
             // Parse the tsv strings into objects as appropriate
-            tsvdata = data.map(function(entry) {
+            csvdata = data.map(function(entry) {
               return entry.map(parseentry)
             });
             // console.log(tsvdata[94531]);
-            top20 = tsvdata.sort(order_by_gapsize_and_merit);
+            top20 = csvdata.sort(order_by_gapsize_and_merit);
             top20 = top20.slice(0, 20);
             var e = document.createElement("tbody");
             cnt = 0;
