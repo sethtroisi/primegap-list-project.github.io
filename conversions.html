@@ -1,0 +1,120 @@
+---
+layout: landing
+title: Data format conversion
+description: Convert prime gap record data in Nicely or CSV format to SQL
+---
+
+<div class="ui vertical segment">
+  <div class="ui centered page grid">
+    <div class="column">
+      <div class="row">
+        <div class="ui medium header">In-browser conversion of CSV- or Nicely-formatted prime gap data</div>
+        <p>Javascript-implemented, in-browser conversion of record prime gap data formatted either in Dr. T.R. Nicely or CSV format, rendered as SQL statements compatible with the <a href="/prime-gap-record-data-fields/">current data representation scheme<i class="linkify link icon" title="data format details"></i></a></p>
+        <hr style="margin-top:2em">
+        <div class="ui small header">Convert CSV format to SQL <a href="/csv-to-sql/"><i class="linkify cogs icon" title="data format details"></i></a></div>
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <i class="dropdown icon"></i>
+            Examples of prime gap record data using comma-separated value (CSV) format
+          </div>
+          <div class="content">
+            <p>Example prime gap record data in CSV format with fields conforming to the <a href="/prime-gap-record-data-fields/">current data representation scheme<i class="linkify link icon" title="data format details"></i></a>.</p>
+            <div class="ui small header">Faked example data for testing</div>
+            <div class="ui tiny header">1. No change, all gaps known and no bettered merits</div>
+            <div class="ui segment">
+              <pre>136098,0,C,?,P,Toni_Key,2016,16.37,3610,1500031*8431#/41910 - 97126
+136100,0,C,?,P,Toni_Key,2016,15.39,3842,10000091*8963#/2221230 - 115554
+136104,0,C,?,P,Jacobsen,2017,16.61,3560,5105*8297#/30 - 61266</pre>
+            </div>
+            <div class="ui tiny header">2. All gaps known but one with bettered merit</div>
+            <div class="ui segment">
+              <pre>136098,0,C,?,P,Toni_Key,2016,16.37,3610,1500031*8431#/41910 - 97126
+136100,0,C,?,P,Toni_Key,2016,15.39,3842,10000091*8963#/2221230 - 115554
+136104,0,C,?,P,Jacobsen,2017,17.61,3560,5105*8297#/30 - 61266</pre>
+            </div>
+            <div class="ui tiny header">3. New gap found, otherwise no bettered merits</div>
+            <div class="ui segment">
+              <pre>136100,0,C,?,P,Toni_Key,2016,15.39,3842,10000091*8963#/2221230 - 115554
+136102,0,C,?,P,Jacobsen,2019,17.61,3560,5105*8324#/30 - 60965
+136104,0,C,?,P,Jacobsen,2017,16.61,3560,5105*8297#/30 - 61266</pre>
+            </div>
+            <div class="ui tiny header">4. New gap found, also one with bettered merit</div>
+            <div class="ui segment">
+              <pre>136100,0,C,?,P,Toni_Key,2016,15.39,3842,10000091*8963#/2221230 - 115554
+136102,0,C,?,P,Jacobsen,2019,17.61,3560,5105*8324#/30 - 60965
+136104,0,C,?,P,Jacobsen,2017,18.61,3560,5105*8297#/30 - 61266</pre>
+            </div>
+          </div>
+        </div>
+        <hr style="margin-top:2em">
+        <div class="ui small header">Convert Nicely format to SQL <a href="/nicely-to-sql/"><i class="linkify cogs icon" title="data format details"></i></a></div>
+
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <i class="dropdown icon"></i>
+            Examples of prime gap record data using Dr. Thomas R. Nicely’s spatial format
+          </div>
+          <div class="content">
+            <p>Example prime gap record data formatted as published by Dr. Thomas R. Nicely (<a href="https://web.archive.org/web/20191118035255/http://www.trnicely.net/gaps/gaplist.html"><i class="linkify link icon" title="data format details"></i></a> and <a href="#archive">¹</a>) mandatory spaces are rendered as “&middot;”, note the difference in formatting when the gap size overflows the 6 digits initially allocated.</p>
+            <div class="ui segment">
+              <pre>&middot;&middot;&middot;916*&middot;CFC&middot;TRNicely&middot;1998&middot;&middot;26.39&middot;&middot;&middot;&middot;16&middot;&middot;1189459969825483
+&middot;&middot;1474&middot;&middot;C?C&middot;Spielaur&middot;2014&middot;&middot;25.93&middot;&middot;&middot;&middot;25&middot;&middot;4911005025345628280826739
+&middot;&middot;1476*&middot;CFC&middot;TOeSilva&middot;2009&middot;&middot;35.31&middot;&middot;&middot;&middot;19&middot;&middot;1425172824437699411
+&middot;&middot;8756&middot;&middot;C?C&middot;Jacobsen&middot;2016&middot;&middot;25.78&middot;&middot;&middot;148&middot;&middot;344995157*349#/30 - 5862
+&middot;51026&middot;&middot;C?P&middot;Jacobsen&middot;2015&middot;&middot;15.63&middot;&middot;1419&middot;&middot;988571*3331#/30 - 30776
+&middot;51028&middot;&middot;C?C&middot;Jacobsen&middot;2015&middot;&middot;21.71&middot;&middot;1021&middot;&middot;1927*2399#/470190 - 26590
+102604&middot;&middot;C?P&middot;Rosnthal&middot;2015&middot;&middot;10.56&middot;&middot;4219&middot;&middot;1111111111111111111*9781#/(30*6373) - 25486
+106752&middot;&middot;C?C&middot;PierCami&middot;2009&middot;&middot;20.24&middot;&middot;2291&middot;&middot;107*(5393#)/6 - 46834
+&middot;&middot;1113106&middot;&middot;C?C&middot;MJPC&JKA&middot;2013&middot;&middot;25.9045&middot;&middot;&middot;18662&middot;&middot;587*43103#/2310& - 455704
+&middot;&middot;4680156&middot;&middot;C??&middot;MrtnRaab&middot;2016&middot;&middot;20.3767&middot;&middot;&middot;99750&middot;&middot;230077#/2229464046810 - 3131794</pre>
+            </div>
+            <div class="ui small header">Faked example data for testing</div>
+            <div class="ui tiny header">1. No change, all gaps known and no bettered merits</div>
+            <div class="ui segment">
+              <pre>136098  C?P Toni_Key 2016  16.37  3610  1500031*8431#/41910 - 97126
+136100  C?P Toni_Key 2016  15.39  3842  10000091*8963#/2221230 - 115554
+136104  C?P Jacobsen 2017  16.61  3560  5105*8297#/30 - 61266</pre>
+            </div>
+            <div class="ui tiny header">2. All gaps known but one with bettered merit</div>
+            <div class="ui segment">
+              <pre>136098  C?P Toni_Key 2016  16.37  3610  1500031*8431#/41910 - 97126
+136100  C?P Toni_Key 2016  15.39  3842  10000091*8963#/2221230 - 115554
+136104  C?P Jacobsen 2017  17.61  3560  5105*8297#/30 - 61266</pre>
+            </div>
+            <div class="ui tiny header">3. New gap found, otherwise no bettered merits</div>
+            <div class="ui segment">
+              <pre>136100  C?P Toni_Key 2016  15.39  3842  10000091*8963#/2221230 - 115554
+136102  C?P Jacobsen 2019  17.61  3560  5105*8324#/30 - 60965
+136104  C?P Jacobsen 2017  16.61  3560  5105*8297#/30 - 61266</pre>
+            </div>
+            <div class="ui tiny header">4. New gap found, also one with bettered merits</div>
+            <div class="ui segment">
+              <pre>136100  C?P Toni_Key 2016  15.39  3842  10000091*8963#/2221230 - 115554
+136102  C?P Jacobsen 2019  17.61  3560  5105*8324#/30 - 60965
+136104  C?P Jacobsen 2017  18.61  3560  5105*8297#/30 - 61266</pre>
+            </div>
+            <div>
+              <hr>
+              <p><a name="archive"></a>¹ <tt>allgaps.dat</tt> publishing history, captured by The Internet Archive “Wayback Machine”</p>
+              <ul>
+                <li><a href="https://web.archive.org/web/20160305015919/http://www.trnicely.net/gaps/allgaps.dat">20160305015919 - 5th. March 2016</a></li>
+                <li><a href="https://web.archive.org/web/20160308084512/http://www.trnicely.net/gaps/allgaps.dat">20160308084512 - 8th. March 2016</a></li>
+                <li><a href="https://web.archive.org/web/20160404153825/http://www.trnicely.net/gaps/allgaps.dat">20160404153825 - 4th. April 2016</a></li>
+                <li><a href="https://web.archive.org/web/20160622011044/http://www.trnicely.net/gaps/allgaps.dat">20160622011044 - 22nd. June 2016</a></li>
+                <li><a href="https://web.archive.org/web/20160730000459/http://www.trnicely.net/gaps/allgaps.dat">20160730000459 - 30th. July 2016</a></li>
+                <li><a href="https://web.archive.org/web/20161030015200/http://www.trnicely.net/gaps/allgaps.dat">20161030015200 - 30th. October 2016</a></li>
+                <li><a href="https://web.archive.org/web/20181214094452/http://www.trnicely.net/gaps/allgaps.dat">20181214094452 - 14th. December 2018</a></li>
+                <li><a href="https://web.archive.org/web/20190115012342/http://www.trnicely.net/gaps/allgaps.dat">20190115012342 - 15th. January 2019</a></li>
+                <li><a href="https://web.archive.org/web/20190216134617/http://www.trnicely.net/gaps/allgaps.dat">20190216134617 - 16th. February 2019</a></li>
+                <li><a href="https://web.archive.org/web/20190319223137/http://www.trnicely.net/gaps/allgaps.dat">20190319223137 - 19th. March 2019</a></li>
+                <li><a href="https://web.archive.org/web/20190419210135/http://www.trnicely.net/gaps/allgaps.dat">20190419210135 - 19th. April 2019</a></li>
+                <li><a href="https://web.archive.org/web/20190521191556/http://www.trnicely.net/gaps/allgaps.dat">20190521191556 - 21st. May 2019</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /row -->
+  </div>
+</div>
+

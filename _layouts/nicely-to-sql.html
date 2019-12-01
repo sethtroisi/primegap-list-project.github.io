@@ -44,7 +44,6 @@
       var allgapscvsentries;
       var target_gap = 0;
       var target_merit = 0.0;
-      var isbetter = false;
       var csvdata = "";
       var sql = "";
       var discoverer = "";
@@ -69,7 +68,6 @@
       dbFileElement.onchange = function () {
         var f = dbFileElement.files[0];
         var r = new FileReader();
-        // r.readAsArrayBuffer(f);
         r.readAsText(f);
         r.onload = function () {
             document.getElementById("data").innerHTML = r.result;
@@ -94,7 +92,7 @@
         document.body.appendChild(a);
         var today = new Date();
         a.href = window.URL.createObjectURL(sqlstatements);
-        a.download = `${discoverer}-${today.toISOString()}.sqlite`;
+        a.download = `primegapprojectconverter-${today.toISOString()}.sqlite`;
         a.onclick = function () {
           setTimeout(function () {
             window.URL.revokeObjectURL(a.href);
@@ -104,40 +102,34 @@
       };
       savedbElement.addEventListener("click", savedb, true);
 
-      function checkIsBetterMerit(entry, index, array) {
-        if (entry[0] == target_gap) {
-          return target_merit > entry[7];
-        }
-      }
-
       function parse_nicely(data) {
         var lines = data.split('\n');
         var entries = new Array;
         for (var line of lines) {
           line = line.replace(' + ', '_+_').replace(' - ', '_-_')
           cells = new Array;
-          for (x of line.split(' ')) {
+          for (var x of line.split(' ')) {
             if (x != '')
               cells.push(x)
           }
-          gapsize = cells[0]
+          var gapsize = cells[0]
           if (gapsize.includes('*')) {
-            ismax = 1;
+            var ismax = 1;
             gapsize = parseInt(gapsize.slice(0, gapsize.length-1), 10);
           }
           else {
-            ismax = 0
+            var ismax = 0;
             gapsize = parseInt(gapsize);
           }
-          primecat = cells[1][0];
-          isfirst = cells[1][1];
-          primecert = cells[1][2];
-          discoverer = cells[2];
-          year = parseInt(cells[3].split('-')[0], 10);
-          merit = parseFloat(cells[4], 10);
-          primedigits = parseInt(cells[5], 10);
-          startprime = cells[6].replace('_+_', ' + ').replace('_-_', ' - ');
-          entry = new Array([gapsize, ismax, primecat, isfirst, primecert, discoverer, year, merit, primedigits, startprime]);
+          var primecat = cells[1][0];
+          var isfirst = cells[1][1];
+          var primecert = cells[1][2];
+          var discoverer = cells[2];
+          var year = parseInt(cells[3].split('-')[0], 10);
+          var merit = parseFloat(cells[4], 10);
+          var primedigits = parseInt(cells[5], 10);
+          var startprime = cells[6].replace('_+_', ' + ').replace('_-_', ' - ');
+          var entry = new Array([gapsize, ismax, primecat, isfirst, primecert, discoverer, year, merit, primedigits, startprime]);
           entries.push(entry);
         }
         return entries;
@@ -170,62 +162,55 @@
           return val;
       };
 
+      function checkIsKnown(entry, index, array) {
+        return entry[0] == target_gap
+      }
+
+      function checkIsBetterMerit(entry, index, array) {
+        if (entry[0] == target_gap) {
+          return target_merit > entry[7];
+        }
+      }
+
       // Execute the commands when the button is clicked
       function convertEditorContents() {
         noerror();
         entereddata = parse_nicely(data.value);
         sql = "";
-        cnt = 0;
-        found = 0;
+        var cnt = 0;
+        var found = 0;
+        var newgaps = 0;
         for (var row of entereddata) {
           row = row[0]
           target_gap = row[0];
           target_merit = row[7];
-          var isbetter = allgapscvsentries.find(checkIsBetterMerit);
-          if (isbetter) {
-            found += 1;
-            cnt += 1;
-            sql += `UPDATE gaps SET ismax=${row[1]},primecat='${row[2]}',isfirst='${row[3]}',primecert='${row[4]}',discoverer='${row[5]}',year=${row[6]},merit=${row[7]},primedigits=${row[8]},startprime='${row[9]}' WHERE gapsize=${row[0]};\n`
+          var isknown = allgapscvsentries.find(checkIsKnown);
+          if (typeof isknown === 'undefined') {
+            found++;
+            newgaps++;
+            cnt++;
+            sql += `INSERT into gaps VALUES (${row[0]},${row[1]},'${row[2]}','${row[3]}','${row[4]}','${row[5]}',${row[6]},${row[7]},${row[8]},'${row[9]}');\n`
           }
           else {
-            cnt += 1;
+            var isbetter = allgapscvsentries.find(checkIsBetterMerit);
+            if (!(typeof isbetter === 'undefined')) {
+              found++;
+              cnt++;
+              sql += `UPDATE gaps SET ismax=${row[1]},primecat='${row[2]}',isfirst='${row[3]}',primecert='${row[4]}',discoverer='${row[5]}',year=${row[6]},merit=${row[7]},primedigits=${row[8]},startprime='${row[9]}' WHERE gapsize=${row[0]};\n`
+            }
+            else {
+              cnt++;
+            }
           }
         }
-        d = document.getElementById("output")
-        d.innerHTML = `${found}/${cnt} new record gaps found`;
+        var d = document.getElementById("output")
+        d.innerHTML = `${newgaps} new record gaps found, ${found}/${cnt} better merits found`;
         d.classList.add("okay");
-        if (found > 0)
+        if (found > 0 || newgaps > 0)
           document.getElementById("savedb").classList.replace("disabled", "green");
+        console.log("Done");
       }
       convertButton.addEventListener("click", convertEditorContents, true);
-
-
-      function parseentry(val, index) {
-        if (index == 0)
-          // gapsize
-          return parseInt(val, 10);
-        else if (index == 1)
-          // ismax
-          if (val == '1')
-            return true;
-          else
-            return false;
-        else if (index > 3 && index < 5)
-          // primetype, isfirst, primecert, discoverer
-          return val
-        else if (index == 6)
-          // year
-          return parseInt(val, 10)
-        else if (index == 7)
-          // merit
-          return parseFloat(val, 10)
-        else if (index == 8)
-          // primedigits
-          return parseInt(val, 10)
-        else
-          // startprime
-          return val;
-      };
 
       xhrDoc = new XMLHttpRequest();   
 
@@ -241,7 +226,6 @@
           {
             r = this.response;
             csvdata = $.csv.toArrays(r);
-            // console.log(csvdata.length);
             // Parse the csv strings into objects as appropriate
             allgapscvsentries = csvdata.map(function(entry) {
               return entry.map(parseentry)
@@ -249,9 +233,8 @@
             $('.ui.dimmer').dimmer('hide');
             };
           }
-        // Actually get the data - slightly orphaned down here but critical nonetheless
         }
-      xhrDoc.send() //sending the request      
+      xhrDoc.send();
     });
     </script>
       

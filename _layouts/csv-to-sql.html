@@ -44,7 +44,6 @@
       var allgapscvsentries;
       var target_gap = 0;
       var target_merit = 0.0;
-      var isbetter = false;
       var csvdata = "";
       var sql = "";
       var discoverer = "";
@@ -69,7 +68,6 @@
       dbFileElement.onchange = function () {
         var f = dbFileElement.files[0];
         var r = new FileReader();
-        // r.readAsArrayBuffer(f);
         r.readAsText(f);
         r.onload = function () {
             document.getElementById("data").innerHTML = r.result;
@@ -94,7 +92,7 @@
         document.body.appendChild(a);
         var today = new Date();
         a.href = window.URL.createObjectURL(sqlstatements);
-        a.download = `${discoverer}-${today.toISOString()}.sqlite`;
+        a.download = `primegapprojectconverter-${today.toISOString()}.sqlite`;
         a.onclick = function () {
           setTimeout(function () {
             window.URL.revokeObjectURL(a.href);
@@ -103,50 +101,6 @@
         a.click();
       };
       savedbElement.addEventListener("click", savedb, true);
-
-      function checkIsBetterMerit(entry, index, array) {
-        if (entry[0] == target_gap) {
-          // console.log(index, entry[0], target_gap, entry[7], target_merit);
-          return target_merit > entry[7];
-        }
-      }
-
-      // Execute the commands when the button is clicked
-      function convertEditorContents() {
-        noerror();
-        enteredcsvdata = $.csv.toArrays(data.value);
-        csventries = enteredcsvdata.map(function(entry) {
-          return entry.map(parseentry)
-        });
-        sql = "";
-        cnt = 0;
-        found = 0;
-        discoverer = csventries[0][5];
-        for (row of csventries.entries()) {
-          // console.log(row[1]);
-          target_gap = row[1][0];
-          target_merit = row[1][7];
-          isbetter = allgapscvsentries.find(checkIsBetterMerit);
-          if (isbetter) {
-            row = row[1];
-            found += 1;
-            cnt += 1;
-            sql += `UPDATE gaps SET ismax=${row[1]},primecat='${row[2]}',isfirst='${row[3]}',primecert='${row[4]}',discoverer='${row[5]}',year=${row[6]},merit=${row[7]},primedigits=${row[8]},startprime='${row[9]}' WHERE gapsize=${row[0]};\n`
-            // console.log(row[0], target_gap, target_merit, isbetter);
-          }
-          else {
-            cnt += 1;
-          }
-        }
-        d = document.getElementById("output")
-        d.innerHTML = `${found}/${cnt} new record gaps found`;
-        d.classList.add("okay");
-        if (found > 0)
-          document.getElementById("savedb").classList.replace("disabled", "green");
-        console.log("Done");
-      }
-      convertButton.addEventListener("click", convertEditorContents, true);
-
 
       function parseentry(val, index) {
         if (index == 0)
@@ -175,6 +129,59 @@
           return val;
       };
 
+      function checkIsKnown(entry, index, array) {
+        return entry[0] == target_gap
+      }
+
+      function checkIsBetterMerit(entry, index, array) {
+        if (entry[0] == target_gap) {
+          return target_merit > entry[7];
+        }
+      }
+
+      // Execute the commands when the button is clicked
+      function convertEditorContents() {
+        noerror();
+        enteredcsvdata = $.csv.toArrays(data.value);
+        csventries = enteredcsvdata.map(function(entry) {
+          return entry.map(parseentry)
+        });
+        sql = "";
+        var cnt = 0;
+        var found = 0;
+        var newgaps = 0;
+        for (var row of csventries.entries()) {
+          row = row[1]
+          target_gap = row[0];
+          target_merit = row[7];
+          var isknown = allgapscvsentries.find(checkIsKnown);
+          if (typeof isknown === 'undefined') {
+            found++;
+            newgaps++;
+            cnt++;
+            sql += `INSERT into gaps VALUES (${row[0]},${row[1]},'${row[2]}','${row[3]}','${row[4]}','${row[5]}',${row[6]},${row[7]},${row[8]},'${row[9]}');\n`
+          }
+          else {
+            var isbetter = allgapscvsentries.find(checkIsBetterMerit);
+            if (!(typeof isbetter === 'undefined')) {
+              found++;
+              cnt++;
+              sql += `UPDATE gaps SET ismax=${row[1]},primecat='${row[2]}',isfirst='${row[3]}',primecert='${row[4]}',discoverer='${row[5]}',year=${row[6]},merit=${row[7]},primedigits=${row[8]},startprime='${row[9]}' WHERE gapsize=${row[0]};\n`
+            }
+            else {
+              cnt++;
+            }
+          }
+        }
+        var d = document.getElementById("output")
+        d.innerHTML = `${newgaps} new record gaps found, ${found}/${cnt} better merits found`;
+        d.classList.add("okay");
+        if (found > 0 || newgaps > 0)
+          document.getElementById("savedb").classList.replace("disabled", "green");
+        console.log("Done");
+      }
+      convertButton.addEventListener("click", convertEditorContents, true);
+
       xhrDoc = new XMLHttpRequest();   
 
       xhrDoc.open('GET', "https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/_data/allgaps.csv")
@@ -189,7 +196,6 @@
           {
             r = this.response;
             csvdata = $.csv.toArrays(r);
-            // console.log(csvdata.length);
             // Parse the csv strings into objects as appropriate
             allgapscvsentries = csvdata.map(function(entry) {
               return entry.map(parseentry)
@@ -197,9 +203,8 @@
             $('.ui.dimmer').dimmer('hide');
             };
           }
-        // Actually get the data - slightly orphaned down here but critical nonetheless
         }
-      xhrDoc.send() //sending the request      
+      xhrDoc.send();
     });
     </script>
       
