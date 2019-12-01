@@ -1,0 +1,37 @@
+---
+layout: nicely-to-sql
+title: Nicely to SQL
+description: Convert Nicely-formatted prime gap record data to SQL
+---
+
+<div class="ui vertical segment">
+  <div class="ui centered page grid">
+    <div class="column">
+      <div class="row">
+        <div class="ui centered inline inverted dimmer">
+          <div class="ui text loader">Your browser is now assembling the table contents, it will take a few moments ...</div>
+        </div>
+        <div id="main">
+          <label class="ui pointing below label" for='commands'>Enter Nicely-formatted data</label>
+          <textarea id="data"></textarea>
+          <label class="ui button">Load file of Nicely data&nbsp;&nbsp;<input type='file' id='dbfile'></label>
+          <button id="convert" class="ui large primary button">Convert to SQL</button>
+          <button id='savedb' class="ui large disabled button">Save SQL</button>
+          <div id="error" class="error"></div>
+          <div id="sqloutput">
+            <p id="output" class="output">Results of conversion will be displayed here</p>
+          </div>
+          <div class="ui header">Example prime gap record data formatted as Nicely <a href="/prime-gap-record-data-fields/"><i class="linkify link icon" title="data format details"></i></a></div>
+          <p>(mandatory spaces rendered as “&middot;”)</p>
+          <div><pre>&middot;65328&middot;&middot;C?P&middot;RobSmith&middot;2018&middot;&middot;19.62&middot;&middot;1446&middot;&middot;195593*3407#/46410 - 48890</pre></div>
+          <div><pre>
+ 65328  C?P RobSmith 2018  19.62  1446  195593*3407#/46410 - 48890
+ 65330  C?C MJPC&JKA 2013  20.42  1390  4007*3299#/1410 - 34746
+ 65332  C?P Toni_Key 2016  18.60  1526  1000321*3581#/17490 - 29454
+ 65334  C?C M.Jansen 2013  21.38  1327  6427*3121#/570 - 35498
+          </pre></div>
+        </div>
+      </div>
+    </div> <!-- /row -->
+  </div>
+</div>

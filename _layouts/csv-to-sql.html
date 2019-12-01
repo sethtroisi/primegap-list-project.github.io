@@ -139,9 +139,10 @@
           }
         }
         d = document.getElementById("output")
-        d.innerHTML = `${found}/${cnt} record gaps found`;
+        d.innerHTML = `${found}/${cnt} new record gaps found`;
         d.classList.add("okay");
-        document.getElementById("savedb").classList.replace("disabled", "green");
+        if (found > 0)
+          document.getElementById("savedb").classList.replace("disabled", "green");
         console.log("Done");
       }
       convertButton.addEventListener("click", convertEditorContents, true);
