@@ -2,8 +2,8 @@
 layout: post
 author: Graham Higgins
 category: video
-title:  "Marcus du Sautoy: Prime Numbers - The Atoms of Maths | 2009"
-tags: post
+title:  "Prime numbers, the atoms of maths"
+tags: post feature
 image: https://img.youtube.com/vi/dSpQICz86-M/2.jpg
 excerpt: "Marcus du Sautoy, 10m video Prime Numbers - The Atoms of Maths"
 ---
