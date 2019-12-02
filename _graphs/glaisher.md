@@ -1,11 +1,11 @@
 ---
 layout: graph
-title: Hans Rosenthal
+title: J. W. L. Glaisher
 description: Graph of gap length plotted against number of prime digits
 author: Graham Higgins
 category: graph
 tags: graph
-discoverer: Rosnthal
+discoverer: Glaisher
 xscale: scaleLinear
 yscale: scaleLinear
 ---

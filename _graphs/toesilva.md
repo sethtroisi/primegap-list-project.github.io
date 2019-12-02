@@ -1,11 +1,11 @@
 ---
 layout: graph
-title: Hans Rosenthal
+title: Tomás Oliveira e Silva
 description: Graph of gap length plotted against number of prime digits
 author: Graham Higgins
 category: graph
 tags: graph
-discoverer: Rosnthal
+discoverer: TOeSilva
 xscale: scaleLinear
 yscale: scaleLinear
 ---

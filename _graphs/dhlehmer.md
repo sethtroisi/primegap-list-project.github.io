@@ -1,11 +1,11 @@
 ---
 layout: graph
-title: Hans Rosenthal
+title: Derrick Henry Lehmer
 description: Graph of gap length plotted against number of prime digits
 author: Graham Higgins
 category: graph
 tags: graph
-discoverer: Rosnthal
+discoverer: DHLehmer
 xscale: scaleLinear
 yscale: scaleLinear
 ---

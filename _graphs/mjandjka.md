@@ -1,11 +1,11 @@
 ---
 layout: graph
-title: Hans Rosenthal
+title: Michiel Jansen and Jens Kruse Andersen
 description: Graph of gap length plotted against number of prime digits
 author: Graham Higgins
 category: graph
 tags: graph
-discoverer: Rosnthal
+discoverer: MJandJKA
 xscale: scaleLinear
 yscale: scaleLinear
 ---
