@@ -92,7 +92,7 @@
         document.body.appendChild(a);
         var today = new Date();
         a.href = window.URL.createObjectURL(sqlstatements);
-        a.download = `primegapprojectconverter-${today.toISOString()}.sqlite`;
+        a.download = `prime-gap-list-conversion-${today.toISOString()}.sql`;
         a.onclick = function () {
           setTimeout(function () {
             window.URL.revokeObjectURL(a.href);
