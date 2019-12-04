@@ -36,7 +36,7 @@ Example candidate first known occurrence data, fabricated from the examples on t
 
 > Paste the CSV data into the textarea:
 
-![Gapcoin CSV pasted into the textarea](/img/news/2019-12-04-how-to-check-01.png)
+![CSV pasted into the textarea](/img/news/2019-12-04-how-to-check-01.png)
 
 ---
 
@@ -71,7 +71,7 @@ In this example, the text editor window was dismissed, the “Save SQL” re-cli
 
 ---
 
-> Click the “Browse...” button and navigate to a locally-stored file of CSV-formatted data. In this example, the contents of the file are the Gapcoin example data shown above.
+> Click the “Browse...” button and navigate to a locally-stored file of CSV-formatted data. In this example, the contents of the file are the fabricated example data shown above.
 
 ![Select file of CSV-formatted gap data](/img/news/2019-12-04-how-to-check-06.png)
 
