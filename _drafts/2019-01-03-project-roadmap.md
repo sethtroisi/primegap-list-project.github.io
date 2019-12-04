@@ -91,3 +91,13 @@ The small gaps are interesting. I kind of want to see what an AWS instance churn
 I was debating writing a script that would take as input something like `1 * 37993# / 30` and do the presieve with my code to get the list of candidates, then call OpenPFGW on each one to test compositeness until a PRP is found (which can then be tested with BPSW or Paul's gwnum-Frobenius routine).
 
 More polished would be a C program that pulls all that in.
+
+#### *Rob Smith*
+
+“merit” should not be float but a rounded 6 decimal number with trailing zeros if applicable, for example <math>35.678020</math>. Reporting from the system can be a smaller number of decimals, but there should be a lower limit on what constitutes a new record and I think 6 decimals is adequate.
+
+Regarding the database can we add month of the year as a 3 alpha, in the form Jan, Feb, etc? This would encourage more frequent submissions and a better sense for the rate of discovery. [Prime Searches Group, Mersenne Forum](https://www.mersenneforum.org/showpost.php?p=531740&postcount=159)
+
+
+
+---
