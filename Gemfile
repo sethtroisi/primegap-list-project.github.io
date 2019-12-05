@@ -22,7 +22,7 @@ gem 'github-pages', versions['github-pages']
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.11.0"
+  gem "jekyll-feed", "~> 0.13.0"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
