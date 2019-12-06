@@ -20,10 +20,10 @@ The data can be a locally-stored file or copied into a buffer for subsequent pas
 Example candidate first known occurrence data, fabricated from the examples on the “Data Conversion” page, formatted as CSV, containing one newly-discovered gap and one with bettered merit.
 
 ```sql
-136098,0,C,?,P,Toni_Key,2016,16.37,3610,1500031*8431#/41910 - 97126
-136100,0,C,?,P,Toni_Key,2016,15.39,3842,10000091*8963#/2221230 - 115554
-136102,0,C,?,P,Jacobsen,2019,17.61,3560,5105*8324#/30 - 60965
-136104,0,C,?,P,Jacobsen,2017,25.61,3560,5105*8297#/30 - 61266
+136098,0,C,?,P,Toni_Key,2016,16.37,3610,"1500031*8431#/41910 - 97126"
+136100,0,C,?,P,Toni_Key,2016,15.39,3842,"10000091*8963#/2221230 - 115554"
+136102,0,C,?,P,Jacobsen,2019,17.61,3560,"5105*8324#/30 - 60965"
+136104,0,C,?,P,Jacobsen,2017,25.61,3560,"5105*8297#/30 - 61266"
 ```
 
 #### 1. Copy and paste example
