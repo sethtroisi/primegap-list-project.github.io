@@ -25,7 +25,7 @@ The process is fairly straightfoward.
 
 ##### Step one, clone the `prime-gap-list` repository 
 
-Open Source community best practice is to fork the project repository into your own Github area (see the Appendix for how to do this) and then clone the forked repository to work on locally.
+Open Source community best practice is to fork the project repository into your own Github area (see Appendix A for how to do this) and then clone the forked repository to work on locally.
 
 ```bash
 git clone https://github.com/gjhiggins/prime-gap-list.git
@@ -51,6 +51,10 @@ sqlite> .quit
 git commit -m "New merits from Gapcoin" allgaps.sql # Explicit commit messages are good
 git push
 ```
+
+##### Step four, create a Pull Request to have the changes merged into the project repository
+
+See Appendix B for an illustrated guide on how to do this.
 
 ##### For project maintainers - updating the website’s conversion facility
 
@@ -81,7 +85,7 @@ git push
 
 If you’re unfamiliar with Github and Git repositories, the following is what to expect ...
 
-### Cloning the prime-gap-list repository
+## Appendix A. Cloning the prime-gap-list repository
 
 Navigate to the the `primegap-list-project` organisation and then to the `prime-gap-list` repository: [https://github.com/primegap-list-project/prime-gap-list](https://github.com/primegap-list-project/prime-gap-list)
 
@@ -118,7 +122,7 @@ Navigate to the the `primegap-list-project` organisation and then to the `prime-
 You should now be in a position to pick up at the beginning of the example interation.
 
 
-### Issuing a “Pull Request”
+## Appendix B. Issuing a “Pull Request”
 
 I created a fake update by incrementing one of Gapcoin’s merits, then committed and pushed the change to my Github repos.
 
