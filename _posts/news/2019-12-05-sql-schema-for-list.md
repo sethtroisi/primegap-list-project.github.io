@@ -32,69 +32,9 @@ CREATE TABLE gaps(
 );
 ```
 
-The domain semantics of the data fields are described [in a separate document](/prime-gap-record-data-fields/) and are reproduced below for convenience.
-
-> The text of this characterisation is taken from Dr. Thomas R. Nicely‘s original description presented in [“First Occurrence Prime Gaps”](https://web.archive.org/web/20191118035255/http://www.trnicely.net/gaps/gaplist.html). Dr. Nicely’s references to spatial positioning and sequence have been replaced by *ad hoc* terminological labels in order to distinguish the data fields.
-> 
-> i) ***gapsize***
-> 
-> This field contains the size or measure of the gap (difference of the bounding primes).
-> 
-> ii) ***ismax***
-> 
-> The gap is a MAXIMAL gap, strictly exceeding in measure all the prime gaps preceding it (those between consecutive prime numbers smaller in magnitude). In this case, it will in addition always be a definite first occurrence and certified.
-> 
-> iii) ***primecat***
-> 
-> This field indicates the type of the gap. All of the gaps in this list are “conventional” (common, classic, standard, regular, ordinary, normal) prime gaps, indicated by the letter “C”; in other words, consecutive prime numbers differing by the measure of the gap, as defined by conditions (1) and (2) alone from the above definition of first occurrence prime gaps. This is the default; if the term “prime gap” is used without further qualification or elaboration, it refers to a conventional prime gap. Additional lists are planned, enumerating other types of prime gaps.
-> 
-> iv) ***isfirst***
-> 
-> This field indicates the first occurrence status of the prime gap.
-> 
-> - The character “F” signifies that the gap has definitely been established (by an exhaustive scan to or beyond that point) as a first occurrence prime gap.
-> - The character “N” signifies that the gap is definitely not a first occurrence (a prior occurrence is known).
-> - The character “?” signifies that the gap is a first known occurrence (no such gap with smaller bounding primes has been found), but that it is not presently known if it is the first occurrence (i.e., whether or not a gap of equal measure with smaller bounding primes exists).
-> 
-> All gaps presently in this list are first known occurrences not known (or expected) to be first occurrences; presumably, as the list evolves, entries will occasionally be replaced by newly discovered smaller instances of gaps.
-> 
-> v) ***primecert***
-> 
-> This field indicates whether the bounding integers of the gap are certified primes (“C”) or probabilistic primes (“P”). The bounding integers of certified gaps (also titled confirmed, conclusive, deterministic, definite, definitive, or proven) have been conclusively proven prime, using trial prime divisors to the square root of the prime, or a test such as APRCL2 (Adleman-Pomerance-Rumely-Cohen-Lenstra-Lenstra).
-> 
-> The gap is probabilistic (also titled “Monte Carlo”) if the bounding integers have only been shown statistically prime (with a probability extremely close to one), using, for example, Miller’s test with multiple bases. For extremely large integers (hundreds or thousands of digits), probabilistic tests are orders of magnitude faster than deterministic tests, but nonetheless become time consuming in the thousands of digits.
-> 
-> > I attempt to personally certify the smaller gaps (to perhaps 100 digits), and to verify probabilistically larger gaps (to perhaps 500 digits). For gaps with even larger initiating primes, I must rely on the discoverer’s report and the vigilance of third parties. *Declaration by originator and maintainer Dr. Thomas R. Nicely*
-> 
-> In all cases, the interior integers of the gaps have been certified deterministically to be composite, using, for example, trial divisors, Fermat’s test, or Miller’s test.
-> 
-> vi) ***discoverer***
-> 
-> This field contains an abbreviation of the listed discoverers. A key of abbreviations to full names (and credit acknowledgements) is maintained separately.
-> 
-> vii) ***year***
-> 
-> This field reflects the most accurate value known for the actual date of discovery; if this is not known, the date of publication or the date of the preprint is shown; if this is not known, an estimate is given.
-> 
-> viii) ***merit***
-> 
-> This field states a so-called figure of merit for the gap. This indicates how much larger the gap is than the average gap (approximately ln(x), as a consequence of the Prime Number Theorem) between primes near that point; the greater the merit, the more unusual the gap. The merit is computed as <math>G/ln(p<sub>1</sub>)</math>; variations in use (and at one time employed in these tables) include <math>G/ln(p<sub>2</sub>)</math> and <math>G/ln((p<sub>1</sub> + p<sub>2</sub>)/2)</math>, where <math>p<sub>1</sub></math> and <math>p<sub>2</sub></math> are the initiating and terminating primes of the gap. For all but the first few gaps, the differences among these formulas are trivial; indeed, if the results are rounded to two decimal places (as herein), I (Dr. Thomas R. Nicely) have found no discrepancies in the resulting values for any gap exceeding 112.
-> 
-> ix) ***primedigits***
-> 
-> This field indicates the number of decimal digits in the initiating prime.
-> 
-> x) ***primestart***
-> 
-> This field shows the initiating prime (smaller bounding integer) of the gap.
-> 
-> Initiating primes longer than 200 decimal digits are subject to abbreviation, unless they can be represented by a simple formula (such as <math>10^999 + 7</math>). This unfortunate policy is implemented due primarily to a shortage of bandwidth. As the listing grows, additional restrictions of this type may become necessary, including bounds on gap sizes, figures of merit, or the size of the initiating primes.
-> 
-> If the complete expansion of an abbreviated prime is desired, I recommend that you contact the discoverer.
-
+The domain semantics of the data fields are described [in a separate document](/prime-gap-record-data-fields/)
 
 ##### Database schema for `credits` table
-
 
 ```sql
 CREATE TABLE credits(
@@ -229,54 +169,4 @@ printf 'CREATE TABLE gaps (
         display TEXT
     );\n
     .save allgaps.db\n' | sqlite3
-```
-
-### Construction of contemporary list of first known occurrences from archive.org captures
-
-**Dump entire database as SQL**
-
-```shell
-sqlite3 allgaps.db .dump > allgaps.sql
-```
-
-```shell
-printf '.open allgaps.db\n
-    .read allgaps.sql\n
-    .mode csv\n
-    .import credits.csv credits\n' | sqlite3
-```
-### Publishing of contemporary list for committing to primegap-list-project.github.io
-
-**Publish `allgaps.csv`**
-
-```shell
-sqlite3 -csv allgaps.db "select * from gaps;" > allgaps.csv
-```
-
-**Publish `credits.csv`**
-
-```shell
-sqlite3 -csv allgaps.db "select * from credits;" > credits.csv
-```
-
-### Loading of contemporary list prior to loading results from javascript checker
-
-**Load from SQL**
-
-```shell
-sqlite>.read allgaps.sql
-```
-
-### One-line shell idioms
-
-```shell
-printf '.mode csv\n.import /tmp/deleteme.csv users\n' | sqlite3 test.db
-```
-
-```shell
-sqlite3 allgaps.db <<<$'.mode csv\n.import /tmp/deleteme.csv users\n'
-```
-
-```shell
-sqlite3 allgaps.db <<<$'.dump\n' > allgaps.sql
 ```
