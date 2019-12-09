@@ -2,9 +2,9 @@
 layout: post
 author: Graham Higgins
 category: project
-title: How to process SQL results of checking
+title: SQL schema for representing the list of first known occurrence prime gaps 
 tags: post project
-excerpt: A walkthrough of the process of updating the list of known first occurrence prime gaps
+excerpt: Details and rationale of schema creation
 ---
 
 #### Publication format
@@ -122,7 +122,7 @@ In which `abbreviation` is a key to the abbreviations used in `gaps` for discove
     Yng&Ptlr---Jeff; Young and Aaron Potler.
     YPPauloR---Jeff Young and Aaron Potler, as reported by Paulo Ribenboim.
 
-This list of discoverers was hand-formatted as CSV
+This list of discoverers was hand-formatted as SQL statements.
 
 ##### A relational database representation of the list of known first occurrence prime gaps
 
@@ -170,3 +170,5 @@ printf 'CREATE TABLE gaps (
     );\n
     .save allgaps.db\n' | sqlite3
 ```
+
+---
