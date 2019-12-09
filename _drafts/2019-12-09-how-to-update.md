@@ -156,6 +156,12 @@ After writing my explanatory comment and attaching the results of the cglp4 gap 
 
 ---
 
+The “Pull requests” tab of the project repository will show +1 in its tally and the submitted PR will appear in the list of PRs submitted to the project repository maintainers. (The example image shows an unrelated PR that I submitted)
+
+![Destination of fork](/img/news/2019-12-09-how-to-update-10.png)
+
+---
+
 
 ### Linux copy’n’pasta one-liners
 
