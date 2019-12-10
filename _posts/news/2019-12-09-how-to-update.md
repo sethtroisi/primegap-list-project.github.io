@@ -2,186 +2,60 @@
 layout: post
 author: Graham Higgins
 category: project
-title: How to update the list of known first occurrence prime gaps
+title: How to create a merits.txt
 tags: post project
-excerpt: Step-by-step process for creating an update of the list of known first occurrence prime gaps
+excerpt: Creating a merits.txt for reference
 ---
 
-#### Assumptions and summary of process
+Tom Nicely used to publish a list of merits for checking:
 
-I’ll assume that you have saved a file of SQL statements as produced by the project website conversion facility (see [How to check new gaps / better merits](/project/2019/12/04/how-to-check/) for how to do this). In this example, I’m using the one I created for the bettered merits produced by Gapcoin: `prime-gap-list-conversion-2019-12-06T01_02_55.318Z.sql`
+“Furthermore, I have also made available for download the zipfile merits.zip, which contains a text file specifying the measure G and the merit M=G/ln(p_1) for all known first occurrence and first known occurrence prime gaps. This much smaller file (less than 1 MB) should be of additional assistance in determining whether or not some newly discovered gap constitutes a new first known occurrence.”
 
-The process is fairly straightfoward.
+Maintaining the list of known first occurrence prime gaps as a file of SQL statements allows users to create their own version, specific to the range of gaps and merits pertinent to the range being searched.
 
-1. clone your Github fork locally and change directory to the clone
-2. start the SQLite3 command-line application with a temporary, empty database (suggested: `tmp.db`)
-3. read in the repository’s list of prime gaps expressed as SQL statements (`allgaps.sql`)
-4. read in the new gaps/bettered merits expressed as SQL statements
-5. dump the database as SQL statements to the file `allgaps.sql` (overwriting the old one)
-6. commit the updated `allgaps.sql` to your local clone of the repository
-7. push the changes back to your fork on Github.
-8. use the Github web ui to issue a Pull Request on the main project repository
+The first step is to download the latest version is available from the github repository at: [https://github.com/primegap-list-project/prime-gap-list/raw/master/allgaps.sql](https://github.com/primegap-list-project/prime-gap-list/raw/master/allgaps.sql)
 
-
-##### Step one, clone the `prime-gap-list` repository 
-
-Open Source community best practice is to fork the project repository into your own Github area (see Appendix A for how to do this) and then clone the forked repository to work on locally.
+The next step is read the list into the SQLite command-line client
 
 ```bash
-git clone https://github.com/gjhiggins/prime-gap-list.git
-cd prime-gap-list
-```
-
-##### Step two, read the SQL files into SQLite3 and dump the result as SQL
-
-```bash
-$ sqlite3 tmp.db
+$ sqlite3 allgaps.db
 SQLite version 3.22.0 2018-01-22 18:45:57
 Enter ".help" for usage hints.
 sqlite> .read allgaps.sql
-sqlite> .read prime-gap-list-conversion-2019-12-06T01_02_55.318Z.sql
-sqlite> .output allgaps.sql
-sqlite> .dump
-sqlite> .quit
+sqlite> 
 ```
 
-##### Step three, commit the changed file of SQL to the cloned repos and push the changes
+The following recipe can be copied and pasted into the sqlite3 command-line client and will create a list of gaps and merits for gaps in the range 10000 and 20000
 
-```bash
-git commit -m "New merits from Gapcoin" allgaps.sql # Explicit commit messages are good
-git push
-```
+    .mode list
+    .separator ','
+    .output merits.txt
+    SELECT gapsize, merit FROM gaps WHERE gapsize BETWEEN 10000 and 20000 ORDER BY gapsize;
+    .exit
 
-##### Step four, create a Pull Request to have the changes merged into the project repository
+producing a `merits.txt` file of which the first 10 lines are:
 
-See Appendix B for an illustrated guide on how to do this.
+    10000,30.01
+    10002,27.81
+    10004,27.77
+    10006,27.74
+    10008,30.44
+    10010,27.77
+    10012,30.21
+    10014,28.42
+    10016,29.22
+    10018,26.98
 
-##### For project maintainers - updating the website’s conversion facility
+This is how it works on Windows 10:
 
-The above process is the absolute minimum for updating the list of known first occurrence prime gaps. However, the conversion process served by the project’s static website won’t be updated unless the accepted changes are propagated to the static website.
+![Screenshot of Windows 10 session](/img/news/2019-12-10-how-to-create-merits.png)
 
-```bash
-$ sqlite3 tmp.db
-SQLite version 3.22.0 2018-01-22 18:45:57
-Enter ".help" for usage hints.
-sqlite> .mode csv
-sqlite> .once allgaps.csv
-sqlite> SELECT * FROM gaps
-sqlite> .once credits.csv
-sqlite> SELECT * FROM credits
-sqlite> .quit
-```
+Notepad users will need to adjust the recipe to include an incantation to create a Windows-specific line ending: `|| char(13)`
 
-Locally clone your Github fork of `primegap-list-project.github.io` and use as working directory; copy the CSV files into the `_data` directory; commit and push the changes
-
-```bash
-git clone https://github.com/gjhiggins/primegap-list-project.github.io.git
-cp ../prime-gap-list/allgaps.csv ../prime-gap-list/credits.csv _data
-git commit -m "Update from Gapcoin"
-git push
-```
-
-## Appendix
-
-If you’re unfamiliar with Github and Git repositories, the following is what to expect ...
-
-## Appendix A. Cloning the prime-gap-list repository
-
-Navigate to the the `primegap-list-project` organisation and then to the `prime-gap-list` repository: [https://github.com/primegap-list-project/prime-gap-list](https://github.com/primegap-list-project/prime-gap-list)
-
-##### Locate the “Fork” button and click it:
-
-![Location of fork button](/img/news/2019-12-09-how-to-update-01.png)
-
----
-
-##### Choose the destination of the fork, if one is offered
-
-![Destination of fork](/img/news/2019-12-09-how-to-update-02.png)
-
----
-
-##### Wait a couple of moments for the fork to be created
-
-![Creaing fork](/img/news/2019-12-09-how-to-update-03.png)
-
----
-
-##### Note successful result, a copy of the repository in your account area
-
-![Successful result](/img/news/2019-12-09-how-to-update-04.png)
-
----
-
-##### Copy the URL of your fork of the Github repository for cloning to your hard drive
-
-![URL to use](/img/news/2019-12-09-how-to-update-05.png)
-
----
-
-You should now be in a position to pick up at the beginning of the example interation.
-
-
-## Appendix B. Issuing a “Pull Request”
-
-I created a fake update by incrementing one of Gapcoin’s merits, then committed and pushed the change to my Github repos.
-
-Now I need to create a “Pull request” so my changes can be merged into the project repository. Github’s web GUI offers a clickable tab:
-
-![Destination of fork](/img/news/2019-12-09-how-to-update-06.png)
-
----
-
-which, when clicked takes me to a welcome screen that offers a “New pull request” button to click.
-
-Note that this is still within the context of my Github fork.
-
-![Destination of fork](/img/news/2019-12-09-how-to-update-07.png)
-
----
-
-Github performs some behind-the-scenes checking to ensure that the proposed changes actually can be merged without causing problems and offers a highlighted “Create pull request” button to click.
-
-Note that the context has been changed to the project repository - where the PR will get created.
-
-![Destination of fork](/img/news/2019-12-09-how-to-update-08.png)
-
----
-
-And finally, I am taken to the business screen where I can write a comment explaining the reason for the PR and use the (highlighted) facility to attach a supporting text file, specifically the confirmatory output from running the cgpl4 gap checker on the new Gapcoin gaps.
-
-I renamed the cgpl4 output file `cgpl4.out` to `gapcoin-cglp4-check-results.txt` for clarity.
-
-**NB** the change in file extension is necessary in order to be able actually to select the file in the file dialog box - as Github only accepts certain extensions (incl. `.txt`) as attachments.
-
-After writing my explanatory comment and attaching the results of the cglp4 gap checker, I can click the “Create new pull request”, thus completing the process.
-
-![Destination of fork](/img/news/2019-12-09-how-to-update-09.png)
-
----
-
-The “Pull requests” tab of the project repository will show +1 in its tally and the submitted PR will appear in the list of PRs submitted to the project repository maintainers. (The example image shows an unrelated PR that I submitted)
-
-![Destination of fork](/img/news/2019-12-09-how-to-update-10.png)
-
----
-
-
-### Linux copy’n’pasta one-liners
-
-Linux users can use one-liners for convenience.
-
-##### Reading SQL and dumping SQL
-```bash
-$ # Presentation, to avoid long lines wrecking the display
-$ mv prime-gap-list-conversion-2019-12-06T01_02_55.318Z.sql updates.sql 
-$ sqlite3 tmp.db <<<$'.read allgaps.sql\n.read updates.sql\n.output allgaps.sql\n.dump\n'
-```
-
-##### Recreating `allgaps.csv` and `credits.csv`:
-```bash
-sqlite3 -csv tmp.db "SELECT * FROM gaps;" > allgaps.csv
-sqlite3 -csv tmp.db "SELECT * from credits;" > credits.csv
-```
+    .mode list
+    .separator ','
+    .output merits.txt
+    SELECT gapsize, merit || char(13) FROM gaps WHERE gapsize BETWEEN 10000 and 20000 ORDER BY gapsize;
+    .exit
 
 ---
