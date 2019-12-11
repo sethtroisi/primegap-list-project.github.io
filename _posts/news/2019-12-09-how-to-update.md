@@ -13,7 +13,7 @@ Tom Nicely used to publish a list of merits for checking:
 
 Maintaining the list of known first occurrence prime gaps as a file of SQL statements allows users to create their own version, specific to the range of gaps and merits pertinent to the range being searched.
 
-The first step is to download the latest version is available from the github repository at: [https://github.com/primegap-list-project/prime-gap-list/raw/master/allgaps.sql](https://github.com/primegap-list-project/prime-gap-list/raw/master/allgaps.sql)
+The first step is to download the latest version is available from the github repository at: [https://raw.githubusercontent.com/primegap-list-project/prime-gap-list/master/allgaps.sql](https://raw.githubusercontent.com/primegap-list-project/prime-gap-list/master/allgaps.sql)
 
 The next step is read the list into the SQLite command-line client
 
