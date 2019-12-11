@@ -103,7 +103,7 @@
       savedbElement.addEventListener("click", savedb, true);
 
       function parse_nicely(data) {
-        var lines = data.split('\n');
+        var lines = data.trim().split(/\s*[\r\n]+\s*/g);
         var entries = new Array;
         for (var line of lines) {
           line = line.replace(' + ', '_+_').replace(' - ', '_-_')
@@ -200,6 +200,7 @@
             }
             else {
               cnt++;
+              sql += `-- ${row[0]},${row[1]},${row[2]},${row[3]},${row[4]},${row[5]},${row[6]},${row[7]},${row[8]},${row[9]}\n`
             }
           }
         }
