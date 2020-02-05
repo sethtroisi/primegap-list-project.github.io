@@ -1,0 +1,12 @@
+<div class="ui animated selection list">
+  {% for post in site.posts limit:site.recent_items %}
+    {% capture first_tag %}{{ post.tags | first }}{% endcapture %}
+    {% if post.category == 'project' %}
+        <a class="item" href="{{ post.url }}">
+        <div class="recent-posts-title">{{ post.title }}</div>
+        <small> {{post.excerpt}} </small>
+        <div class="right floated"><small>{{ post.date | date: "%b %-d, %Y" }}</small></div>
+      </a>
+    {% endif %}
+  {% endfor %}
+</div>

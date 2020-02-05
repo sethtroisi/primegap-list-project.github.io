@@ -3,7 +3,7 @@ layout: post
 author: Graham Higgins
 category: project
 title:  Using Jekyll to run a local copy of the project website
-tags: post project
+tags: projectdoc
 excerpt: A description of how to use Jekyll to serve this website on http://localhost:4000 
 ---
 

@@ -3,7 +3,7 @@ layout: post
 author: Graham Higgins
 category: project
 title: Submissions via Github issues
-tags: post project
+tags: projectdoc
 excerpt: How to submit new gaps and/or bettered merits using the Github “issues” web GUI
 ---
 

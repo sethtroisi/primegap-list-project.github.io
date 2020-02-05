@@ -3,7 +3,7 @@ layout: post
 author: Graham Higgins
 category: project
 title: How to create a merits.txt
-tags: post project
+tags: projectdoc
 excerpt: Creating a merits.txt for reference
 ---
 

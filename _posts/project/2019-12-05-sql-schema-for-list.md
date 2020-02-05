@@ -3,7 +3,7 @@ layout: post
 author: Graham Higgins
 category: project
 title: SQL schema for representing the list of first known occurrence prime gaps 
-tags: post project
+tags: projectdoc
 excerpt: Details and rationale of schema creation
 ---
 

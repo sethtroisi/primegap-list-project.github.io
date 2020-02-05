@@ -3,7 +3,7 @@ layout: post
 author: Graham Higgins
 category: project
 title:  Cloning a repository and creating a Pull Request
-tags: post project
+tags: projectdoc
 excerpt: Illustrated guide to cloning a Prime Gap List project repository and creating a PR
 ---
 

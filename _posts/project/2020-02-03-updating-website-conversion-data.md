@@ -3,7 +3,7 @@ layout: post
 author: Graham Higgins
 category: project
 title:  Updating the CSV file that drives the website conversion GUI
-tags: post project
+tags: projectdoc
 excerpt: A walkthrough of a shortened process for updating the prime gap list project website's CSV data file 
 ---
 

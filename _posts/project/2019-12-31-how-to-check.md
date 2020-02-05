@@ -3,7 +3,7 @@ layout: post
 author: Graham Higgins
 category: project
 title: How to check new gaps / better merits
-tags: post project
+tags: projectdoc
 excerpt: A walkthrough of the process of checking new record gaps or gaps with better merits -  
 ---
 

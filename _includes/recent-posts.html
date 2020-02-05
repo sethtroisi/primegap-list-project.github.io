@@ -1,7 +1,7 @@
 <div class="ui animated selection list">
   {% for post in site.posts limit:site.recent_items %}
     {% capture first_tag %}{{ post.tags | first }}{% endcapture %}
-    {% if first_tag != 'feature' and post.category != 'app' %}
+    {% if first_tag != 'feature' and post.category != 'project' %}
       {% if post.category %}
         {% if post.category == 'video' %}
           <a class="ui blue ribbon small label"  href="/category/#{{ post.category }}">{{ post.category }}</a>
