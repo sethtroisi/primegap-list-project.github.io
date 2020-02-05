@@ -73,13 +73,13 @@ Taken from this very page ...
     ---
     layout: post
     author: Graham Higgins
-    category: project’re ready
+    category: project
     title:  Using Jekyll to run a local copy of the project website
     tags: post project
     excerpt: A description of how to use Jekyll to serve this website on http://localhost:4000 
     ---
 
-### Example of content
+### Example of Markdown content
 
 Taken from this very page to illustrate how to create a hypertext link and a list ...
 
