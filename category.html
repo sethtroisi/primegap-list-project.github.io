@@ -17,6 +17,7 @@ description: Recent posts listed by category.
 
 {% for category in site.categories %}
   {% capture inverted %}{{ forloop.index | modulo:2 }}{% endcapture %}
+  {% if category.first != 'project' %}
   <div class="ui {% if inverted == '0' %}inverted paleblue {% endif %}vertical segment">
     <div class="ui very relaxed stackable page grid">
       <div class="row">
@@ -49,4 +50,5 @@ description: Recent posts listed by category.
       </div>
     </div>
   </div>
+  {% endif %}
 {% endfor %}

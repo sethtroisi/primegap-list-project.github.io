@@ -17,6 +17,7 @@ description: Recent posts listed by tags.
 
 {% for tag in site.tags %}
   {% capture inverted %}{{ forloop.index | modulo:2 }}{% endcapture %}
+  {% if tag.first != 'projectdoc' %}
   <div class="ui {% if inverted == '0' %}inverted paleblue {% endif %}vertical segment">
     <div class="ui very relaxed stackable page grid">
       <div class="row">
@@ -49,4 +50,5 @@ description: Recent posts listed by tags.
       </div>
     </div>
   </div>
+  {% endif %}
 {% endfor %}
