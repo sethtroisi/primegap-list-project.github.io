@@ -1,5 +1,5 @@
 ---
-layout: prime-gaps-high-watermarks.md
+layout: prime-gaps-high-watermarks
 title: "Record prime gaps"
 author: Seth Troisi
 category: list
