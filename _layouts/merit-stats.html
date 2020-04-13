@@ -1,0 +1,138 @@
+  {% include head.html %}
+  </head>
+
+  <body class="global landing">
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    {% if site.pagebar %}
+    {% include page-bar.html %}
+    <div class="pusher">
+    {% endif %}
+        {% include landing-header.html %}
+        <div class="ui vertical segment">
+          <div class="ui page grid">
+            <div class="column">
+              <div class="ui centered inline inverted dimmer">
+                <div class="ui text loader">Your browser is now assembling the table contents, it will take a few moments ...</div>
+              </div>
+              <div class="row">
+                <table id="intervals" class="ui striped collapsing very compact small celled table">
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% include footer.html %}
+    {% if site.pagebar %}
+    </div>
+    {% endif %}
+
+    {% include js.html %}
+    <script>
+
+      $('.page.dimmer:first')
+        .dimmer('toggle');
+
+      const gap_breaks = [
+          2000, 4000, 6000, 8000, 10000,
+          15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000,
+          70000, 80000, 100000, 150000, 200000, 9000000,
+          'total'
+      ];
+
+      var max_merit = 35;
+      const merit_bins = [10, 12, 14]
+          .concat(Array(max_merit - 15 + 1).fill().map((_, idx) => 15 + idx))
+          .concat([42]);
+
+      function stats() {
+        return {
+          'counts': new Array(merit_bins.length).fill(0),
+          'sum_merit': 0,
+          'count': 0,
+        };
+      }
+
+      // TODO also group by year and discoverer.
+
+      var page_counts = {};
+      for (gap of gap_breaks) {
+        page_counts[gap] = stats();
+      }
+
+      $(document).ready(function() {
+        $('.ui.dimmer').dimmer('show');
+        $.when(
+            $.get("https://raw.githubusercontent.com/primegap-list-project/primegap-list-project.github.io/master/_data/allgaps.csv")
+        ).then(function(gapscsv) {
+
+          var gapsarray = $.csv.toArrays(gapscsv);
+          for (row of gapsarray) {
+            var gap = parseInt(row[0], 10);
+            var merit = parseFloat(row[7]);
+
+            var page = gap_breaks.find(n => n > gap);
+            var bin  = merit_bins.findIndex(m => m > merit);
+            page_counts[page]['counts'][bin] += 1;
+            page_counts[page]['count'] += 1;
+            page_counts[page]['sum_merit'] += merit;
+
+            page_counts['total']['counts'][bin] += 1;
+            page_counts['total']['count'] += 1;
+            page_counts['total']['sum_merit'] += merit;
+          };
+
+          function table_elem(type, text) {
+            var th = document.createElement(type);
+            var label = document.createTextNode(text)
+            th.appendChild(label);
+            return th;
+          }
+
+          var h = document.createElement("thead");
+          h.appendChild(table_elem("th", "Gap start"));
+          h.appendChild(table_elem("th", "Gap end"));
+          h.appendChild(table_elem("th", "Count"));
+          h.appendChild(table_elem("th", "Avg"));
+
+          for (bin of merit_bins) {
+            h.appendChild(table_elem("th", "<" + bin));
+          }
+
+          var b = document.createElement("tbody");
+          for (page of gap_breaks.entries()) {
+            var start_gap = page[0] == 0 || page[0] == gap_breaks.length - 1 ?
+                1 : gap_breaks[page[0] - 1] + 2;
+            var end_gap = page[0] >= gap_breaks.length - 2 ?
+                gapsarray[gapsarray.length - 1][0] : gap_breaks[page[0]];
+
+            var tr = document.createElement("tr");
+            var p_stats = page_counts[page[1]];
+            var avg = p_stats['sum_merit'] / p_stats['count'];
+
+            tr.appendChild(table_elem("td", start_gap));
+            tr.appendChild(table_elem("td", end_gap));
+            tr.appendChild(table_elem("td", p_stats['count']));
+            tr.appendChild(table_elem("td", avg.toFixed(2)));
+
+            for (c of p_stats['counts']) {
+              tr.appendChild(table_elem("th", "" + c));
+            }
+
+            b.appendChild(tr);
+          };
+
+          var interval = document.getElementById("intervals");
+          interval.appendChild(h);
+          interval.appendChild(b);
+
+          $('.ui.dimmer').dimmer('hide');
+        });
+
+
+      });
+    </script>
+  </body>
+</html>
