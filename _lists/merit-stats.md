@@ -1,8 +1,8 @@
 ---
 layout: merit-stats
-title: "Count of gaps by merit"
+title: "Gap Stats by Interval & Year"
 author: Seth Troisi
 category: list
 tags: list
-description: Count of gaps by merit
+description: Aggregate stats about gaps grouped by interval and year of discovery.
 ---

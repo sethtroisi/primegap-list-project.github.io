@@ -39,7 +39,7 @@
           2000, 4000, 6000, 8000, 10000,
           15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000,
           70000, 80000, 100000, 150000, 200000, 9000000,
-          'total'
+          "total"
       ];
 
       var max_merit = 35;
@@ -49,18 +49,33 @@
 
       function stats() {
         return {
-          'counts': new Array(merit_bins.length).fill(0),
-          'sum_merit': 0,
-          'count': 0,
+          "counts": new Array(merit_bins.length).fill(0),
+          "sum_merit": 0,
+          "count": 0,
+          "min": Infinity,
+          "max": 0
         };
       }
 
       // TODO also group by year and discoverer.
 
-      var page_counts = {};
+      var interval_stats = {};
       for (gap of gap_breaks) {
-        page_counts[gap] = stats();
+        interval_stats[gap] = stats();
       }
+
+      var year_stats = {};
+
+      function add_stat(stats, gap, merit, bin) {
+        stats["count"] += 1;
+        stats["counts"][bin] += 1
+        stats["sum_merit"] += merit;
+        if (gap < stats["min"])
+            stats["min"] = gap;
+        if (gap > stats["max"])
+            stats["max"] = gap;
+      }
+
 
       $(document).ready(function() {
         $('.ui.dimmer').dimmer('show');
@@ -72,16 +87,19 @@
           for (row of gapsarray) {
             var gap = parseInt(row[0], 10);
             var merit = parseFloat(row[7]);
+            var year = parseInt(row[6]);
 
-            var page = gap_breaks.find(n => n > gap);
+            var page_idx = gap_breaks.find(n => n > gap);
             var bin  = merit_bins.findIndex(m => m > merit);
-            page_counts[page]['counts'][bin] += 1;
-            page_counts[page]['count'] += 1;
-            page_counts[page]['sum_merit'] += merit;
 
-            page_counts['total']['counts'][bin] += 1;
-            page_counts['total']['count'] += 1;
-            page_counts['total']['sum_merit'] += merit;
+            add_stat(interval_stats[page_idx], gap, merit, bin);
+            add_stat(interval_stats["total"], gap, merit, bin);
+
+            if (year > 0) {
+              if (!year_stats[year])
+                year_stats[year] = stats();
+              add_stat(year_stats[year], gap, merit, bin);
+            }
           };
 
           function table_elem(type, text) {
@@ -103,21 +121,16 @@
 
           var b = document.createElement("tbody");
           for (page of gap_breaks.entries()) {
-            var start_gap = page[0] == 0 || page[0] == gap_breaks.length - 1 ?
-                1 : gap_breaks[page[0] - 1] + 2;
-            var end_gap = page[0] >= gap_breaks.length - 2 ?
-                gapsarray[gapsarray.length - 1][0] : gap_breaks[page[0]];
-
             var tr = document.createElement("tr");
-            var p_stats = page_counts[page[1]];
-            var avg = p_stats['sum_merit'] / p_stats['count'];
+            var p_stats = interval_stats[page[1]];
+            var avg = p_stats["sum_merit"] / p_stats["count"];
 
-            tr.appendChild(table_elem("td", start_gap));
-            tr.appendChild(table_elem("td", end_gap));
-            tr.appendChild(table_elem("td", p_stats['count']));
+            tr.appendChild(table_elem("td", p_stats["min"]));
+            tr.appendChild(table_elem("td", p_stats["max"]));
+            tr.appendChild(table_elem("td", p_stats["count"]));
             tr.appendChild(table_elem("td", avg.toFixed(2)));
 
-            for (c of p_stats['counts']) {
+            for (c of p_stats["counts"]) {
               tr.appendChild(table_elem("th", "" + c));
             }
 
@@ -125,8 +138,46 @@
           };
 
           var interval = document.getElementById("intervals");
-          interval.appendChild(h);
-          interval.appendChild(b);
+          var table = document.createElement("table");
+          table.appendChild(h);
+          table.appendChild(b);
+          interval.appendChild(table);
+          interval.appendChild(document.createElement("br"));
+
+          // By year of discovery
+          h = document.createElement("thead");
+          h.appendChild(table_elem("th", "Year"));
+          h.appendChild(table_elem("th", "Min Gap"));
+          h.appendChild(table_elem("th", "Max Gap"));
+          h.appendChild(table_elem("th", "Count"));
+          h.appendChild(table_elem("th", "Avg"));
+
+          for (bin of merit_bins) {
+            h.appendChild(table_elem("th", "<" + bin));
+          }
+
+          b = document.createElement("tbody");
+          for (let year in year_stats) {
+            var tr = document.createElement("tr");
+            var p_stats = year_stats[year];
+            var avg = p_stats["sum_merit"] / p_stats["count"];
+
+            tr.appendChild(table_elem("td", year));
+            tr.appendChild(table_elem("td", p_stats["min"]));
+            tr.appendChild(table_elem("td", p_stats["max"]));
+            tr.appendChild(table_elem("td", p_stats["count"]));
+            tr.appendChild(table_elem("td", avg.toFixed(2)));
+
+            for (c of p_stats["counts"]) {
+              tr.appendChild(table_elem("th", "" + c));
+            }
+
+            b.appendChild(tr);
+          };
+          table = document.createElement("table");
+          table.appendChild(h);
+          table.appendChild(b);
+          interval.appendChild(table);
 
           $('.ui.dimmer').dimmer('hide');
         });
