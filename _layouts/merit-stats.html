@@ -13,13 +13,12 @@
         {% include landing-header.html %}
         <div class="ui vertical segment">
           <div class="ui page grid">
-            <div class="column">
+            <div class = "column">
               <div class="ui centered inline inverted dimmer">
                 <div class="ui text loader">Your browser is now assembling the table contents, it will take a few moments ...</div>
               </div>
               <div class="row">
-                <table id="intervals" class="ui striped collapsing very compact small celled table">
-                </table>
+                <div id="intervals">
               </div>
             </div>
           </div>
@@ -76,7 +75,6 @@
             stats["max"] = gap;
       }
 
-
       $(document).ready(function() {
         $('.ui.dimmer').dimmer('show');
         $.when(
@@ -102,7 +100,13 @@
             }
           };
 
-          function table_elem(type, text) {
+          function table_elem() {
+            var table = document.createElement("table");
+            $(table).addClass("ui striped collapsing very compact small celled table");
+            return table;
+          }
+
+          function table_part(type, text) {
             var el = document.createElement(type);
             if (type == "td" && text == 0) {
               text = "";
@@ -114,13 +118,13 @@
           }
 
           var h = document.createElement("thead");
-          h.appendChild(table_elem("th", "Gap start"));
-          h.appendChild(table_elem("th", "Gap end"));
-          h.appendChild(table_elem("th", "Count"));
-          h.appendChild(table_elem("th", "Avg"));
+          h.appendChild(table_part("th", "Gap start"));
+          h.appendChild(table_part("th", "Gap end"));
+          h.appendChild(table_part("th", "Count"));
+          h.appendChild(table_part("th", "Avg"));
 
           for (bin of merit_bins) {
-            h.appendChild(table_elem("th", "<" + bin));
+            h.appendChild(table_part("th", "<" + bin));
           }
 
           var b = document.createElement("tbody");
@@ -129,20 +133,20 @@
             var p_stats = interval_stats[page[1]];
             var avg = p_stats["sum_merit"] / p_stats["count"];
 
-            tr.appendChild(table_elem("td", p_stats["min"]));
-            tr.appendChild(table_elem("td", p_stats["max"]));
-            tr.appendChild(table_elem("td", p_stats["count"]));
-            tr.appendChild(table_elem("td", avg.toFixed(3)));
+            tr.appendChild(table_part("td", p_stats["min"]));
+            tr.appendChild(table_part("td", p_stats["max"]));
+            tr.appendChild(table_part("td", p_stats["count"]));
+            tr.appendChild(table_part("td", avg.toFixed(3)));
 
             for (c of p_stats["counts"]) {
-              tr.appendChild(table_elem("th", "" + c));
+              tr.appendChild(table_part("td", "" + c));
             }
 
             b.appendChild(tr);
           };
 
           var interval = document.getElementById("intervals");
-          var table = document.createElement("table");
+          var table = table_elem();
           table.appendChild(h);
           table.appendChild(b);
           interval.appendChild(table);
@@ -150,14 +154,14 @@
 
           // By year of discovery
           h = document.createElement("thead");
-          h.appendChild(table_elem("th", "Year"));
-          h.appendChild(table_elem("th", "Min Gap"));
-          h.appendChild(table_elem("th", "Max Gap"));
-          h.appendChild(table_elem("th", "Count"));
-          h.appendChild(table_elem("th", "Avg"));
+          h.appendChild(table_part("th", "Year"));
+          h.appendChild(table_part("th", "Min Gap"));
+          h.appendChild(table_part("th", "Max Gap"));
+          h.appendChild(table_part("th", "Count"));
+          h.appendChild(table_part("th", "Avg"));
 
           for (bin of merit_bins) {
-            h.appendChild(table_elem("th", "<" + bin));
+            h.appendChild(table_part("th", "<" + bin));
           }
 
           b = document.createElement("tbody");
@@ -166,26 +170,25 @@
             var p_stats = year_stats[year];
             var avg = p_stats["sum_merit"] / p_stats["count"];
 
-            tr.appendChild(table_elem("td", year));
-            tr.appendChild(table_elem("td", p_stats["min"]));
-            tr.appendChild(table_elem("td", p_stats["max"]));
-            tr.appendChild(table_elem("td", p_stats["count"]));
-            tr.appendChild(table_elem("td", avg.toFixed(3)));
+            tr.appendChild(table_part("td", year));
+            tr.appendChild(table_part("td", p_stats["min"]));
+            tr.appendChild(table_part("td", p_stats["max"]));
+            tr.appendChild(table_part("td", p_stats["count"]));
+            tr.appendChild(table_part("td", avg.toFixed(3)));
 
             for (c of p_stats["counts"]) {
-              tr.appendChild(table_elem("th", "" + c));
+              tr.appendChild(table_part("td", "" + c));
             }
 
             b.appendChild(tr);
           };
-          table = document.createElement("table");
+          table = table_elem();
           table.appendChild(h);
           table.appendChild(b);
           interval.appendChild(table);
 
           $('.ui.dimmer').dimmer('hide');
         });
-
 
       });
     </script>
