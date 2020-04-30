@@ -103,10 +103,14 @@
           };
 
           function table_elem(type, text) {
-            var th = document.createElement(type);
+            var el = document.createElement(type);
+            if (type == "td" && text == 0) {
+              text = "";
+            }
+
             var label = document.createTextNode(text)
-            th.appendChild(label);
-            return th;
+            el.appendChild(label);
+            return el;
           }
 
           var h = document.createElement("thead");
@@ -128,7 +132,7 @@
             tr.appendChild(table_elem("td", p_stats["min"]));
             tr.appendChild(table_elem("td", p_stats["max"]));
             tr.appendChild(table_elem("td", p_stats["count"]));
-            tr.appendChild(table_elem("td", avg.toFixed(2)));
+            tr.appendChild(table_elem("td", avg.toFixed(3)));
 
             for (c of p_stats["counts"]) {
               tr.appendChild(table_elem("th", "" + c));
@@ -166,7 +170,7 @@
             tr.appendChild(table_elem("td", p_stats["min"]));
             tr.appendChild(table_elem("td", p_stats["max"]));
             tr.appendChild(table_elem("td", p_stats["count"]));
-            tr.appendChild(table_elem("td", avg.toFixed(2)));
+            tr.appendChild(table_elem("td", avg.toFixed(3)));
 
             for (c of p_stats["counts"]) {
               tr.appendChild(table_elem("th", "" + c));
