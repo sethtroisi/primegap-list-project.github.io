@@ -54,6 +54,7 @@ INSERT INTO credits VALUES ('Rosnthal', 'Hans Rosenthal', '', 'Hans Rosenthal');
 INSERT INTO credits VALUES ('RosntlJA', 'Hans Rosenthal', 'Computer code by Jens Kruse Andersen.', 'Hans Rosenthal [Jens Kruse Andersen]');
 INSERT INTO credits VALUES ('RosntlJF', 'Hans Rosenthal', 'Computer code by Jim Fougeron.', 'Hans Rosenthal [Jim Fougeron]');
 INSERT INTO credits VALUES ('RP.Brent', 'Richard P. Brent', '', 'Richard P. Brent');
+INSERT INTO credits VALUES ('S.Troisi', 'Seth Troisi', '', 'Seth Troisi');
 INSERT INTO credits VALUES ('Shepherd', 'Rick L. Shepherd', '', 'Rick L. Shepherd');
 INSERT INTO credits VALUES ('Spielaur', 'Helmut Spielauer', '', 'Helmut Spielauer');
 INSERT INTO credits VALUES ('TAlmFMJA', 'Torbjörn Alm', 'Computer code by Jens Kruse Andersen. Deterministic primality proofs by François Morain.', 'Torbjörn Alm [Jens Kruse Andersen]');
